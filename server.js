@@ -1,4 +1,6 @@
 require("dotenv").config();
+const express = require("express");
+const app = express();
 const mysql = require("mysql");
 const selectUser = require("./queries/selectUser");
 const { toJson, toSafeParse } = require("./utils/helpers");
