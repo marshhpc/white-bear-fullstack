@@ -1,0 +1,236 @@
+// Colors
+$white: #fff;
+$black: #000;
+
+$gray-050: #e5e6e8;
+$gray-100: #cccdd2;
+$gray-200: #b4b4bb;
+$gray-300: #999aa4;
+$gray-400: #80818d;
+$gray-500: #666877;
+$gray-600: #52535f;
+$gray-700: #3d3e47;
+$gray-800: #292a30;
+$gray-900: #141518;
+
+$blue-050: #dae8f4;
+$blue-100: #bfccf5;
+$blue-200: #97adf1;
+$blue-300: #7693ec;
+$blue-400: #587be7;
+$blue-500: #4366d3;
+$blue-600: #2f52b9;
+$blue-700: #1c3688;
+$blue-800: #0c205a;
+$blue-900: #010b2d;
+
+$red-050: #f6dce2;
+$red-100: #ecb8c5;
+$red-200: #e38ea3;
+$red-300: #da6a84;
+$red-400: #cb4666;
+$red-500: #c13958;
+$red-600: #a42443;
+$red-700: #770d26;
+$red-800: #500416;
+$red-900: #290505;
+
+$grays: ();
+$grays: map-merge(
+   (
+      "100": $gray-100,
+      "200": $gray-200,
+      "300": $gray-300,
+      "400": $gray-400,
+      "500": $gray-500,
+      "600": $gray-600,
+      "700": $gray-700,
+      "800": $gray-800,
+      "900": $gray-900,
+   ),
+   $grays
+);
+
+$blue: $blue-600;
+$red: $red-600;
+$gray: $gray-600;
+
+$colors: ();
+$colors: map-merge(
+   (
+      "blue": $blue,
+      "red": $red,
+      "white": $white,
+      "gray": $gray,
+      "gray-dark": $gray-800,
+   ),
+   $colors
+);
+
+$primary: $gray;
+$secondary: $gray-700;
+$success: $blue;
+$danger: $red;
+$light: $gray-100;
+$dark: $gray-800;
+
+$theme-colors: ();
+$theme-colors: map-merge(
+   (
+      "primary": $primary,
+      "secondary": $secondary,
+      "success": $success,
+      "info": $info,
+      "warning": $warning,
+      "danger": $danger,
+      "light": $light,
+      "dark": $dark,
+   ),
+   $theme-colors
+);
+// SPACING
+
+// $spacer is used for font sizes, thus rem is preferred
+// $spacers are used for paddings and margins and px are preferred
+
+$spacer: 1rem; // 16px in most browsers
+$spacers: ();
+$spacers: map-merge(
+   (
+      0: 0px,
+      1: 4px,
+      2: 8px,
+      3: 12px,
+      4: 16px,
+      5: 24px,
+      6: 32px,
+      7: 48px,
+      8: 64px,
+      9: 128px,
+   ),
+   $spacers
+);
+
+$paragraph-margin-bottom: 0;
+
+// fonts
+@import url("https://fonts.googleapis.com/css2?family=Fira+Sans:wght@500&family=Noto+Sans:wght@400;700&family=Noto+Serif&display=swap");
+
+$font-family-sans-serif: "Noto Sans", sans-serif, "Apple Color Emoji",
+   "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$font-family-serif: "Noto Serif", serif;
+$font-family-brand: "Fira Sans";
+$font-family-base: $font-family-sans-serif;
+
+$font-weight-normal: 400;
+$font-weight-bold: 700;
+
+$line-height-base: 1.5; // Assumes the browser default; typically "16px"
+
+$font-size-base: 1rem;
+$font-size-lg: $font-size-base * 1.25;
+$font-size-sm: $font-size-base * 0.875;
+
+$h1-font-size: $font-size-base * 3.75;
+$h2-font-size: $font-size-base * 1.6875;
+$h3-font-size: $font-size-base * 1.25;
+$h4-font-size: $font-size-base * 1.25;
+
+$font-size-lg: $font-size-base * 1.25;
+$font-size-sm: $font-size-base * 0.875;
+
+$text-muted: $gray-400;
+
+$lead-font-size: $font-size-base * 1.25;
+$lead-font-weight: 300;
+
+// links
+
+$link-color: theme-color("primary");
+$link-decoration: none;
+$link-hover-color: darken($link-color, 15%);
+$link-hover-decoration: underline;
+// Darken percentage for links with `.text-*` class (e.g. `.text-success`)
+$emphasized-link-hover-darken-percentage: 15%;
+
+// Card
+$card-spacer-y: map-get(
+   $map: $spacers,
+   $key: 4,
+);
+$card-spacer-x: map-get(
+   $map: $spacers,
+   $key: 4,
+);
+$card-border-width: $border-width;
+
+// Border
+$border-width: 2px;
+$input-btn-border-width: $border-width;
+$btn-border-width: $input-btn-border-width;
+
+$border-color: $primary;
+
+$border-radius: map-get($spacers, 4);
+$border-radius-lg: $border-radius;
+$border-radius-sm: $border-radius;
+
+// Buttons And Inputs
+
+$input-btn-padding-y: map-get($spacers, 2);
+$input-btn-padding-x: map-get($spacers, 4);
+$input-btn-font-size: $font-size-base;
+$input-btn-line-height: $line-height-base;
+
+$input-btn-padding-y-sm: map-get($spacers, 1);
+$input-btn-padding-x-sm: map-get($spacers, 4);
+$input-btn-font-size-sm: $font-size-base;
+$input-btn-line-height-sm: $line-height-base;
+
+$input-btn-padding-y-lg: map-get($spacers, 2);
+$input-btn-padding-x-lg: map-get($spacers, 6);
+$input-btn-font-size-lg: $font-size-base;
+$input-btn-line-height-lg: $line-height-base;
+
+// Buttons
+
+$btn-padding-y: $input-btn-padding-y;
+$btn-padding-x: $input-btn-padding-x;
+$btn-font-size: $font-size-base;
+$btn-line-height: $line-height-base;
+
+$btn-padding-y-sm: $input-btn-padding-y-sm;
+$btn-padding-x-sm: $input-btn-padding-x-sm;
+$btn-font-size-sm: $font-size-base;
+$btn-line-height-sm: $line-height-base;
+
+$btn-padding-y-lg: $input-btn-padding-y-lg;
+$btn-padding-x-lg: $input-btn-padding-x-lg;
+$btn-font-size-lg: $font-size-base;
+$btn-line-height-lg: $line-height-base;
+
+$btn-font-weight: $font-weight-normal;
+
+// Inputs
+
+$input-padding-y: $input-btn-padding-y;
+$input-padding-x: $input-btn-padding-x;
+$input-font-size: $font-size-base;
+$input-line-height: $line-height-base;
+
+$input-padding-y-sm: $input-btn-padding-y-sm;
+$input-padding-x-sm: $input-btn-padding-x-sm;
+$input-font-size-sm: $font-size-base;
+$input-line-height-sm: $line-height-base;
+
+$input-padding-y-lg: $input-btn-padding-y-lg;
+$input-padding-x-lg: $input-btn-padding-x-lg;
+$input-font-size-lg: $font-size-base;
+$input-line-height-lg: $line-height-base;
+
+// checkbox
+$component-active-color: $white;
+$component-active-bg: theme-color("primary");
+$custom-control-indicator-checked-color: $component-active-color;
+$custom-control-indicator-checked-bg: $component-active-bg;
+$custom-control-indicator-checked-border-color: $custom-control-indicator-checked-bg;
