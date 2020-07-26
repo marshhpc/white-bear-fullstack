@@ -70,7 +70,7 @@ export default class AllCards extends React.Component {
                   <div className="col-4">
                      <button
                         className="btn btn-primary btn-block btn-sm"
-                        onClick={(e) => this.setSearchTerm(e)}
+                        onClick={() => this.setSearchTerm()}
                      >
                         Search
                      </button>
