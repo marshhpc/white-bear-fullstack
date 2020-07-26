@@ -23,10 +23,23 @@ router.get("/", (req, res) => {
       userId,
       constructedSearchTerm,
       constructedSearchTerm,
-      order,
+      { toSqlString: () => order },
    ])
-      .then((dbRes) => {
-         res.json(dbRes);
+      .then((memoryCards) => {
+         const camelCaseMemoryCards = memoryCards.map((memoryCard) => {
+            return {
+               id: memoryCard.id,
+               imagery: memoryCard.imagery,
+               answer: memoryCard.answer,
+               userId: memoryCard.user_id,
+               createdAt: memoryCard.created_at,
+               nextAttemptAt: memoryCard.next_attempt_at,
+               lastAttemptAt: memoryCard.last_atempt_at,
+               totalSuccessfulAttempts: memoryCard.total_successful_attempts,
+               level: memoryCard.level,
+            };
+         });
+         res.json(camelCaseMemoryCards);
       })
       .catch((err) => {
          console.log(err);

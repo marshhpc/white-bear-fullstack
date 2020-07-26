@@ -1,9 +1,8 @@
 import React from "react";
 import AppTemplate from "../ui/AppTemplate";
 import MemoryCard from "../ui/MemoryCard";
-
-import orderBy from "lodash/orderBy";
 import axios from "axios";
+const userId = "16672b8b-6946-4016-b7b8-f450b911f69e";
 
 // const memoryCard = memoryCards[3];
 
@@ -12,28 +11,41 @@ export default class AllCards extends React.Component {
       super(props);
 
       this.state = {
-         order: '[["createdAt"], ["desc"]]',
-         displayedMemoryCards: [],
-         allMemoryCards: [],
+         order: "memory_cards.created_at%20DESC",
+         memoryCards: [],
+         searchTerm: "",
       };
    }
 
    componentDidMount() {
+      this.setMemoryCards();
+   }
+
+   setOrder(e) {
+      const newOrder = e.target.value;
+      console.log(newOrder);
+      this.setState({ order: newOrder }, () => {
+         this.setMemoryCards();
+      });
+   }
+
+   setSearchTerm() {
+      const searchInput = document.getElementById("search-input").value;
+      this.setState({ searchTerm: searchInput }, () => {
+         this.setMemoryCards();
+      });
+   }
+
+   setMemoryCards() {
       axios
          .get(
-            "https://raw.githubusercontent.com/marshhpc/white-bear-mpa/master/src/moc-data/memory-cards.json"
+            `/api/v1/memory-cards?userId=${userId}&searchTerm=${this.state.searchTerm}&order=${this.state.order}`
          )
          .then((res) => {
             // handle success
             console.log(res.data);
-            const memoryCards = res.data;
             this.setState({
-               displayedMemoryCards: orderBy(
-                  memoryCards,
-                  ["createdAt"],
-                  ["desc"]
-               ),
-               allMemoryCards: orderBy(memoryCards, ["createdAt"], ["desc"]),
+               memoryCards: res.data,
             });
          })
          .catch((error) => {
@@ -41,52 +53,6 @@ export default class AllCards extends React.Component {
             console.log(error);
          });
    }
-
-   filterByInput(e) {
-      e.preventDefault();
-      const input = document.getElementById("search-input").value;
-      const lowerCasedInput = input.toLowerCase();
-      const copyOfAllMemoryCards = [...this.state.allMemoryCards];
-      const filteredMemoryCards = copyOfAllMemoryCards.filter((memoryCard) => {
-         const lowerCasedImagery = memoryCard.imagery.toLowerCase();
-         const lowerCasedAnswer = memoryCard.answer.toLowerCase();
-         if (
-            lowerCasedImagery.includes(lowerCasedInput) ||
-            lowerCasedAnswer.includes(lowerCasedInput)
-         ) {
-            return true;
-         }
-         return false;
-      });
-      this.setState({ displayedMemoryCards: filteredMemoryCards }, () => {
-         this.setMemoryCards();
-      });
-   }
-
-   setOrder(e) {
-      const newOrder = e.target.value;
-      this.setState({ order: newOrder }, () => {
-         this.setMemoryCards();
-      });
-   }
-
-   setMemoryCards() {
-      const copyOfDisplayedMemoryCards = [...this.state.displayedMemoryCards];
-      const toJson = JSON.parse(this.state.order);
-      console.log(...toJson);
-      const orderedMemoryCards = orderBy(copyOfDisplayedMemoryCards, ...toJson);
-      this.setState({ displayedMemoryCards: orderedMemoryCards });
-   }
-
-   // setMemoryCardsOrder(e) {
-   //    const newOrder = e.target.value;
-   //    console.log(newOrder);
-   //    const copyOfMemoryCards = [...this.state.memoryCards];
-   //    const toJson = JSON.parse(newOrder);
-   //    const orderMemoryCards = orderBy(copyOfMemoryCards, ...toJson);
-   //    console.log(orderMemoryCards);
-   //    this.setState({ order: newOrder, memoryCards: orderMemoryCards });
-   // }
 
    render() {
       return (
@@ -97,14 +63,14 @@ export default class AllCards extends React.Component {
                      <input
                         type="text"
                         className="form-control"
-                        id="search-input"
                         placeholder="Search for a word"
+                        id="search-input"
                      />
                   </div>
                   <div className="col-4">
                      <button
                         className="btn btn-primary btn-block btn-sm"
-                        onClick={(e) => this.filterByInput(e)}
+                        onClick={(e) => this.setSearchTerm(e)}
                      >
                         Search
                      </button>
@@ -120,21 +86,23 @@ export default class AllCards extends React.Component {
                         className="form-control form-control-sm"
                         onChange={(e) => this.setOrder(e)}
                      >
-                        <option value='[["createdAt"], ["desc"]]'>
+                        <option value="memory_cards.created_at%20DESC">
                            Most recent
                         </option>
-                        <option value='[["createdAt"], ["asc"]]'>Oldest</option>
-                        <option value='[["totalSuccessfulAttempts", "createdAt"],["asc", "asc"]]'>
+                        <option value="memory_cards.created_at%20ASC">
+                           Oldest
+                        </option>
+                        <option value="memory_cards.total_successful_attempts%20ASC,%20memory_cards.created_at%20ASC">
                            Hardest
                         </option>
-                        <option value='[["totalSuccessfulAttempts", "createdAt"],["desc", "desc"]]'>
+                        <option value="memory_cards.total_successful_attempts%20DESC,%20memory_cards.created_at%20DESC">
                            Easiest
                         </option>
                      </select>
                   </div>
                </div>
             </div>
-            {this.state.displayedMemoryCards.map((memoryCard) => {
+            {this.state.memoryCards.map((memoryCard) => {
                return <MemoryCard card={memoryCard} key={memoryCard.id} />;
             })}
          </AppTemplate>
