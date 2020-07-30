@@ -1,6 +1,5 @@
 import React from "react";
 import classnames from "classnames";
-import hash from "object-hash";
 import { v4 as getUuid } from "uuid";
 import { withRouter } from "react-router-dom";
 import { EMAIL_REGEX } from "../../utils/helpers";
@@ -34,7 +33,6 @@ class SignUp extends React.Component {
             hasEmailError: true,
          });
       else if (EMAIL_REGEX.test(lowerCasedEmailInput) === false) {
-         console.log("Not A Valid Email");
          this.setState({
             emailError: "Please enter a valid email address.",
             hasEmailError: true,
@@ -55,10 +53,9 @@ class SignUp extends React.Component {
       console.log(passwordInput);
 
       const uniqChars = [...new Set(passwordInput)];
-
       if (passwordInput === "") {
          this.setState({
-            passwordError: "Please create password.",
+            passwordError: "Please create a password.",
             hasPasswordError: true,
          });
       } else if (passwordInput.length < 9) {
@@ -84,45 +81,36 @@ class SignUp extends React.Component {
    }
 
    async validdateAndCreateUser() {
-      const emailInput = document.getElementById("email-input").value;
-      const passwordInput = document.getElementById("password-input").value;
+      const emailInput = document.getElementById("signup-email-input").value;
+      const passwordInput = document.getElementById("signup-password-input")
+         .value;
       await this.setEmailState(emailInput);
       await this.setPasswordState(passwordInput, emailInput);
       if (
          this.state.hasEmailError === false &&
          this.state.hasPasswordError === false
       ) {
+         // Create user obj
          const user = {
             id: getUuid(),
             email: emailInput,
-            password: hash(passwordInput),
+            password: passwordInput,
             createdAt: Date.now(),
          };
          console.log("created userobject for post", user);
-         // mimic api response
+         // post to API
          axios
-            .get(
-               "https://raw.githubusercontent.com/marshhpc/white-bear-mpa/master/src/moc-data/user.json"
-            )
+            .post("/api/v1/users", user)
             .then((res) => {
-               // handle success
-
-               const currentUser = res.data;
-               console.log(currentUser);
-               this.props.dispatch({
-                  type: actions.UPDATE_CURRENT_USER,
-                  payload: res.data,
-               });
+               console.log(res);
             })
-            .catch((error) => {
-               // handle error
-               console.log(error);
+            .catch((err) => {
+               console.log(err);
             });
 
-         // redirect the user
-         this.props.history.push("/create-answer");
+         // Update current user in global state with Api response
+         // Go to the next page: this.props.history.push("/create-answer");
       }
-      this.props.history.push("/create-answer");
    }
 
    render() {
@@ -140,7 +128,10 @@ class SignUp extends React.Component {
                            Lets get you signed up.
                         </p>
 
-                        <label className="input-text" htmlFor="email-input">
+                        <label
+                           className="input-text"
+                           htmlFor="signup-email-input"
+                        >
                            Email address
                         </label>
                         <input
@@ -150,7 +141,7 @@ class SignUp extends React.Component {
                               "mb-2": true,
                               "is-invalid": this.state.hasEmailError,
                            })}
-                           id="email-input"
+                           id="signup-email-input"
                         />
                         {this.state.hasEmailError && (
                            <p className="text-danger">
@@ -160,8 +151,15 @@ class SignUp extends React.Component {
 
                         <div className="mb-4"></div>
 
-                        <label className="input-text" htmlFor="password-input">
+                        <label
+                           className="input-text"
+                           htmlFor="signup-password-input"
+                        >
                            Create a password
+                           <br />
+                           <span className="text-muted">
+                              Must be at least 9 characters
+                           </span>
                         </label>
                         <input
                            type="password"
@@ -170,7 +168,7 @@ class SignUp extends React.Component {
                               "mb-2": true,
                               "is-invalid": this.state.hasPasswordError,
                            })}
-                           id="password-input"
+                           id="signup-password-input"
                         />
                         {this.state.hasPasswordError && (
                            <p className="text-danger">
