@@ -6,7 +6,7 @@ module.exports = function getSignUpEmailError(email) {
    if (email === "") {
       return "Please enter you email address.";
    }
-   if (EMAIL_REGEX.test(email.toLowerCase()) === false) {
+   if (EMAIL_REGEX.test(email) === false) {
       return "Please enter a valid email address.";
    }
    if (checkIsInDb(email) === true) {

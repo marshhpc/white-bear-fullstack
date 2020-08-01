@@ -12,7 +12,7 @@ const getSignUpPasswordError = require("../../validation/getSignUpPasswordError"
 // @access      Public
 router.post("/", async (req, res) => {
    const { id, email, password, createdAt } = req.body;
-   const emailError = getSignUpEmailError(email);
+   const emailError = getSignUpEmailError(1234);
    const passwordError = getSignUpPasswordError(password);
    if (emailError === "" && passwordError === "") {
       const user = {

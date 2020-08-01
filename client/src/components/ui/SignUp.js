@@ -107,7 +107,7 @@ class SignUp extends React.Component {
                // Go to the next page: this.props.history.push("/create-answer");
             })
             .catch((err) => {
-               console.log(err);
+               console.log(err.response.data);
             });
       }
    }
