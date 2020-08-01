@@ -103,13 +103,12 @@ class SignUp extends React.Component {
             .post("/api/v1/users", user)
             .then((res) => {
                console.log(res);
+               // Update current user in global state with Api response
+               // Go to the next page: this.props.history.push("/create-answer");
             })
             .catch((err) => {
                console.log(err);
             });
-
-         // Update current user in global state with Api response
-         // Go to the next page: this.props.history.push("/create-answer");
       }
    }
 
