@@ -84,32 +84,41 @@ class SignUp extends React.Component {
       const emailInput = document.getElementById("signup-email-input").value;
       const passwordInput = document.getElementById("signup-password-input")
          .value;
-      await this.setEmailState(emailInput);
-      await this.setPasswordState(passwordInput, emailInput);
-      if (
-         this.state.hasEmailError === false &&
-         this.state.hasPasswordError === false
-      ) {
-         // Create user obj
-         const user = {
-            id: getUuid(),
-            email: emailInput,
-            password: passwordInput,
-            createdAt: Date.now(),
-         };
-         console.log("created userobject for post", user);
-         // post to API
-         axios
-            .post("/api/v1/users", user)
-            .then((res) => {
-               console.log(res);
-               // Update current user in global state with Api response
-               // Go to the next page: this.props.history.push("/create-answer");
-            })
-            .catch((err) => {
-               console.log(err.response.data);
+      // Create user obj
+      const user = {
+         id: getUuid(),
+         email: emailInput,
+         password: passwordInput,
+         createdAt: Date.now(),
+      };
+      console.log("created userobject for post", user);
+      // post to API
+      axios
+         .post("/api/v1/users", user)
+         .then((res) => {
+            console.log(res.data);
+            // Update current user in global state with Api response
+            this.props.dispatch({
+               type: actions.UPDATE_CURRENT_USER,
+               payload: res.data,
             });
-      }
+            this.props.history.push("/create-answer");
+         })
+         .catch((err) => {
+            const { data } = err.response;
+            console.log(data);
+            const { emailError, passwordError } = data;
+            if (emailError !== "") {
+               this.setState({ hasEmailError: true, emailError });
+            } else {
+               this.setState({ hasEmailError: false, emailError });
+            }
+            if (passwordError !== "") {
+               this.setState({ hasPasswordError: true, passwordError });
+            } else {
+               this.setState({ hasPasswordError: false, passwordError });
+            }
+         });
    }
 
    render() {

@@ -2,14 +2,14 @@ const { EMAIL_REGEX } = require("../utils/helpers");
 const db = require("../db");
 const selectUserByEmail = require("../queries/selectUserByEmail");
 
-module.exports = function getSignUpEmailError(email) {
+module.exports = async function getSignUpEmailError(email) {
    if (email === "") {
       return "Please enter you email address.";
    }
    if (EMAIL_REGEX.test(email) === false) {
       return "Please enter a valid email address.";
    }
-   if (checkIsInDb(email) === true) {
+   if (await checkIsInDb(email)) {
       return "This email address already exists in the database.";
    }
    return "";
