@@ -1,6 +1,6 @@
 const { EMAIL_REGEX } = require("../utils/helpers");
 
-module.exports = async function getLoginEmailError(email) {
+module.exports = function getLoginEmailError(email) {
    if (email === "") {
       return "Please enter you email address.";
    }

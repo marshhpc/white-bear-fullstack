@@ -8,20 +8,12 @@ import { connect } from "react-redux";
 class LogIn extends React.Component {
    constructor(props) {
       super(props);
-      console.log("In a new class component");
       this.state = {
-         isDisplayingInputs: false,
          emailError: "",
          passwordError: "",
          hasEmailError: false,
          hasPasswordError: false,
       };
-   }
-
-   showInputs() {
-      this.setState({
-         isDisplayingInputs: true,
-      });
    }
 
    async validateAndLogInUser() {
@@ -32,26 +24,35 @@ class LogIn extends React.Component {
          email: emailInput,
          password: passwordInput,
       };
-      console.log("created userobject for post", user);
+
       axios
          .post("/api/v1/users/auth", user)
          .then((res) => {
             // handle success
-
-            const currentUser = res.data;
-            console.log(currentUser);
+            console.log(res.data);
+            // Update current user in global state with Api response
             this.props.dispatch({
                type: actions.UPDATE_CURRENT_USER,
                payload: res.data,
             });
+            this.props.history.push("/create-answer");
          })
-         .catch((error) => {
-            // handle error
-            console.log(error);
-         });
 
-      // redirect the user
-      this.props.history.push("/create-answer");
+         .catch((err) => {
+            const { data } = err.response;
+            console.log(data);
+            const { emailError, passwordError } = data;
+            if (emailError !== "") {
+               this.setState({ hasEmailError: true, emailError });
+            } else {
+               this.setState({ hasEmailError: false, emailError });
+            }
+            if (passwordError !== "") {
+               this.setState({ hasPasswordError: true, passwordError });
+            } else {
+               this.setState({ hasPasswordError: false, passwordError });
+            }
+         });
    }
 
    render() {
