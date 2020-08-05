@@ -8,13 +8,11 @@ const { toHash } = require("../../utils/helpers");
 const getSignUpEmailError = require("../../validation/getSignUpEmailError");
 const getSignUpPasswordError = require("../../validation/getSignUpPasswordError");
 
-// @route       POST api/v1/users
-// @desc        Create a new user
-// @access      Public
 router.post("/", async (req, res) => {
    const { id, email, password, createdAt } = req.body;
    const emailError = await getSignUpEmailError(email);
    const passwordError = getSignUpPasswordError(password, email);
+   let dbError = "";
    if (emailError === "" && passwordError === "") {
       const user = {
          id,
@@ -36,17 +34,29 @@ router.post("/", async (req, res) => {
                })
                .catch((err) => {
                   console.log(err);
-                  res.status(400).json("mysql error.");
+                  dbError = `${err.code} ${err.sqlMessage}`;
+                  res.status(400).json({ dbError });
                });
          })
          .catch((err) => {
             console.log(err);
-            // return a 400 error to user
-            res.status(400).json({ emailError, passwordError });
+            dbError = `${err.code} ${err.sqlMessage}`;
+            res.status(400).json({ dbError });
          });
    } else {
       res.status(400).json({ emailError, passwordError });
    }
+});
+
+// @route       POST api/v1/users/auth
+// @desc        Authorize this user via email and password
+// @access      Public
+
+router.post("/auth", async (req, res) => {
+   const { email, password } = req.body;
+   const emailError = getLogInEmailError(email);
+   const passwordError = await getLogInPasswordError(password, email);
+   let dbError = "";
 });
 
 module.exports = router;
