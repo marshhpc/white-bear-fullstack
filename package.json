@@ -11,6 +11,9 @@
       "heroku-postbuild": "npm install --prefix client && npm run build --prefix client",
       "dev": "concurrently \"npm run server\" \"npm run client\""
    },
+   "engines": {
+      "node": "12.18.3"
+   },
    "author": "",
    "license": "ISC",
    "dependencies": {
