@@ -39,7 +39,7 @@ export default class AllCards extends React.Component {
    setMemoryCards() {
       axios
          .get(
-            `/api/v1/memory-cards?userId=${userId}&searchTerm=${this.state.searchTerm}&order=${this.state.order}`
+            `/api/v1/memory-cards?searchTerm=${this.state.searchTerm}&order=${this.state.order}`
          )
          .then((res) => {
             // handle success
@@ -71,6 +71,8 @@ export default class AllCards extends React.Component {
                      <button
                         className="btn btn-primary btn-block btn-sm"
                         onClick={() => this.setSearchTerm()}
+                        id="search-button"
+                        type="button"
                      >
                         Search
                      </button>
