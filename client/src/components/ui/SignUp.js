@@ -35,7 +35,7 @@ class SignUp extends React.Component {
          password: passwordInput,
          createdAt: Date.now(),
       };
-      console.log("created userobject for post", user);
+
       // post to API
       axios
          .post("/api/v1/users", user)
