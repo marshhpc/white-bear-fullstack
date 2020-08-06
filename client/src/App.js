@@ -28,13 +28,11 @@ if (authToken) {
       });
    } else {
       console.log("valid token");
-      // store the user in global state / redux store (currentUser)
       store.dispatch({
          type: actions.UPDATE_CURRENT_USER,
          payload: user,
       });
-      // set authorization headers
-      // redirect to create-answers
+      // TODO: set authorization headers
       const currentUrl = window.location.pathname;
       if (currentUrl === "/") {
          window.location.href = "/create-answer";
