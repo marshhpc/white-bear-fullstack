@@ -22,6 +22,10 @@ if (authToken) {
    if (currentTimeInSec > user.exp) {
       console.log("expired token");
       // remove the current user from the global state / redux store
+      store.dispatch({
+         type: actions.UPDATE_CURRENT_USER,
+         payload: {},
+      });
    } else {
       console.log("valid token");
       // store the user in global state / redux store (currentUser)
