@@ -17,16 +17,15 @@ import axios from "axios";
 
 const authToken = localStorage.authToken;
 if (authToken) {
-   // if the authToken is not expired
    const currentTimeInSec = Date.now() / 1000;
    const user = jwtDecode(authToken);
    if (currentTimeInSec > user.exp) {
       console.log("expired token");
-      // remove the current user from the global state / redux store
       store.dispatch({
          type: actions.UPDATE_CURRENT_USER,
          payload: {},
       });
+      delete axios.defaults.headers.common["x-auth-token"];
    } else {
       console.log("valid token");
       store.dispatch({
@@ -42,6 +41,7 @@ if (authToken) {
    }
 } else {
    console.log("no token");
+   delete axios.defaults.headers.common["x-auth-token"];
 }
 
 function App() {

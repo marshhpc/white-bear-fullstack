@@ -2,9 +2,6 @@ import React from "react";
 import AppTemplate from "../ui/AppTemplate";
 import MemoryCard from "../ui/MemoryCard";
 import axios from "axios";
-const userId = "16672b8b-6946-4016-b7b8-f450b911f69e";
-
-// const memoryCard = memoryCards[3];
 
 export default class AllCards extends React.Component {
    constructor(props) {

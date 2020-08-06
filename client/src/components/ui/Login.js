@@ -29,7 +29,6 @@ class LogIn extends React.Component {
       axios
          .post("/api/v1/users/auth", user)
          .then((res) => {
-            console.log(res.data);
             // set token in localstorage
             const authToken = res.data;
             localStorage.setItem("authToken", authToken);
@@ -38,6 +37,7 @@ class LogIn extends React.Component {
                type: actions.UPDATE_CURRENT_USER,
                payload: user,
             });
+            axios.defaults.headers.common["x-auth-token"] = authToken;
             this.props.history.push("/create-answer");
          })
 
