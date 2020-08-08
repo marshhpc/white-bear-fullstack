@@ -37,7 +37,7 @@ router.get("/", validateJwt, (req, res) => {
                userId: memoryCard.user_id,
                createdAt: memoryCard.created_at,
                nextAttemptAt: memoryCard.next_attempt_at,
-               lastAttemptAt: memoryCard.last_atempt_at,
+               lastAttemptAt: memoryCard.last_attempt_at,
                totalSuccessfulAttempts: memoryCard.total_successful_attempts,
                level: memoryCard.level,
             };
@@ -83,11 +83,12 @@ router.post("/", validateJwt, (req, res) => {
          // success
          console.log("Created memory card in the db", dbRes);
          // return with a status resposne
+         return res.status(200).json({ success: "card created" });
       })
       .catch((err) => {
-         // error
          console.log(err);
-         // return with an error status response
+         dbError = `${err.code} ${err.sqlMessage}`;
+         res.status(400).json({ dbError });
       });
 });
 

@@ -19,6 +19,5 @@ export default (level, lastAttemptAt) => {
    // return as milliseconds past the epoch
    const nextAttepmtAt = addDate(lastAttemptAt, levelDuration[level]);
    const timeStamp = Number(formatDate(nextAttepmtAt, "T"));
-
    return timeStamp;
 };

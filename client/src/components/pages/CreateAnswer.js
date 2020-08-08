@@ -41,8 +41,8 @@ class CreateAnswer extends React.Component {
             imagery: "",
             userId: this.props.currentUser.id,
             createdAt: currentTime,
-            nextAtemptAt: getNextAttemptAt(defaultLevel, currentTime),
-            LasAttemptAt: currentTime,
+            nextAttemptAt: getNextAttemptAt(defaultLevel, currentTime),
+            lastAttemptAt: currentTime,
             totalSuccessfulAttempts: 0,
             level: 1,
          },
@@ -53,7 +53,9 @@ class CreateAnswer extends React.Component {
    render() {
       return (
          <AppTemplate>
-            <h4 className="d-flex justify-content-center">Add an answer</h4>
+            <h4 className="d-flex justify-content-center text-muted">
+               Add an answer
+            </h4>
             <div className="mb-5 mt-2">
                <div className="card bg-secondary">
                   <div className="card-body">
