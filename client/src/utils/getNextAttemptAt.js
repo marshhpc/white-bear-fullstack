@@ -1,4 +1,5 @@
 import addDate from "date-fns/add";
+import formatDate from "date-fns/format";
 
 export default (level, lastAttemptAt) => {
    const levelDuration = {
@@ -15,6 +16,9 @@ export default (level, lastAttemptAt) => {
       11: { years: 4 },
       12: { years: 8 },
    };
+   // return as milliseconds past the epoch
+   const nextAttepmtAt = addDate(lastAttemptAt, levelDuration[level]);
+   const timeStamp = Number(formatDate(nextAttepmtAt, "T"));
 
-   return addDate(lastAttemptAt, levelDuration[level]);
+   return timeStamp;
 };

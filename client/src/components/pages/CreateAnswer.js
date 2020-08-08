@@ -1,6 +1,5 @@
 import React from "react";
 import AppTemplate from "../ui/AppTemplate";
-import { Link } from "react-router-dom";
 import classnames from "classnames";
 import { checkIsOver, Max_Card_Chars, defaultLevel } from "../../utils/helpers";
 import { connect } from "react-redux";
@@ -38,16 +37,17 @@ class CreateAnswer extends React.Component {
          payload: {
             // the card itself
             id: getUuid(),
-            answer: "",
+            answer: this.state.imageryText,
             imagery: "",
-            userId: "",
+            userId: this.props.currentUser.id,
             createdAt: currentTime,
-            nextAtemptAt: getNextAttemptAt(defaultLevel, currentTime), //
+            nextAtemptAt: getNextAttemptAt(defaultLevel, Date.now()), //
             LasAttemptAt: currentTime,
             totalSuccessfulAttempts: 0,
             level: 1,
          },
       });
+      this.props.history.push("/create-imagery");
    }
 
    render() {
@@ -59,6 +59,7 @@ class CreateAnswer extends React.Component {
                   <div className="card-body">
                      <textarea
                         rows="4"
+                        id="answerText"
                         defaultValue={""}
                         onChange={(e) => this.setImageryText(e)}
                      ></textarea>
@@ -100,6 +101,6 @@ class CreateAnswer extends React.Component {
 }
 
 function mapStateToProps(state) {
-   return {};
+   return { currentUser: state.currentUser };
 }
 export default connect(mapStateToProps)(CreateAnswer);

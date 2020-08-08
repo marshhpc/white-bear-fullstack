@@ -4,8 +4,10 @@ import AppTemplate from "../ui/AppTemplate";
 import { Link } from "react-router-dom";
 import classnames from "classnames";
 import { checkIsOver, Max_Card_Chars } from "../../utils/helpers";
+import { connect } from "react-redux";
+import actions from "../../store/actions";
 
-export default class CreateImagery extends React.Component {
+class CreateImagery extends React.Component {
    constructor(props) {
       super(props);
       console.log("in the edit component");
@@ -25,6 +27,16 @@ export default class CreateImagery extends React.Component {
 
    setImageryText(e) {
       this.setState({ imageryText: e.target.value });
+   }
+
+   updateCreatableCard() {
+      console.log("UPDATING CREATABLE CARD");
+      this.props.dispatch({
+         type: actions.UPDATE_CREATABLE_CARD,
+         payload: {
+            imagery: "",
+         },
+      });
    }
 
    render() {
@@ -47,13 +59,7 @@ export default class CreateImagery extends React.Component {
                </div>
                <div className="card bg-secondary">
                   <div className="card-body" id="imagery-answer">
-                     Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                     Aenean commodo ligula eget dolor. Aenean massa. Cum sociis
-                     natoque penatibus et magnis dis parturient montes, nascetur
-                     ridiculus mus. Donec quam felis, ultricies nec,
-                     pellentesque eu, pretium quis, sem. Nulla consequat massa
-                     quis enim. Donec pede justo, fringilla vel, aliquet nec,
-                     vulputate
+                     {this.props.creatableCard.answer}
                   </div>
                </div>
             </div>
@@ -82,6 +88,9 @@ export default class CreateImagery extends React.Component {
                            disabled: this.checkHasInvalidCharCount(),
                         }
                      )}
+                     onClick={() => {
+                        this.updateCreatableCard();
+                     }}
                   >
                      <img
                         src={saveIcon}
@@ -98,3 +107,8 @@ export default class CreateImagery extends React.Component {
       );
    }
 }
+
+function mapStateToProps(state) {
+   return { creatableCard: state.creatableCard };
+}
+export default connect(mapStateToProps)(CreateImagery);
