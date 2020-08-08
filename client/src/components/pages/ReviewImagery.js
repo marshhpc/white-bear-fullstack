@@ -4,18 +4,13 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { connect } from "react-redux";
 import actions from "../../store/actions";
-// import memoryCards from "../../moc-data/memory-cards";
-
-// const memoryCard = memoryCards[0];
 
 class ReviewImagery extends React.Component {
    constructor(props) {
       super(props);
       if (props.queue.cards.length === 0) {
          axios
-            .get(
-               "https://raw.githubusercontent.com/marshhpc/white-bear-mpa/master/src/moc-data/memory-cards.json"
-            )
+            .get(`/api/v1/queue`)
             .then(function (res) {
                // handle success
                console.log(res);
@@ -28,14 +23,6 @@ class ReviewImagery extends React.Component {
                // handle error
                console.log(error);
             });
-
-         /*
-
-         queuedCards: [],
-         indexOfCurrentCard: 0,
-         currentUser: {},
-          
-         */
       }
       if (props.queue.index > props.queue.cards.length) {
          this.props.history.push("/review-empty");

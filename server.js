@@ -6,6 +6,7 @@ app.use(express.json());
 
 app.use("/api/v1/users", require("./api/v1/users"));
 app.use("/api/v1/memory-cards", require("./api/v1/memory-cards"));
+app.use("/api/v1/queue", require("./api/v1/queue"));
 
 app.use(express.static("client/build"));
 app.get("*", (req, res) => {
