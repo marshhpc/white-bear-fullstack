@@ -41,7 +41,7 @@ class CreateAnswer extends React.Component {
             imagery: "",
             userId: this.props.currentUser.id,
             createdAt: currentTime,
-            nextAtemptAt: getNextAttemptAt(defaultLevel, Date.now()), //
+            nextAtemptAt: getNextAttemptAt(defaultLevel, currentTime),
             LasAttemptAt: currentTime,
             totalSuccessfulAttempts: 0,
             level: 1,
