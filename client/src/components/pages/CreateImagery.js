@@ -75,8 +75,7 @@ export default class CreateImagery extends React.Component {
                   Back to answer
                </Link>
                <div className="float-right">
-                  <Link
-                     to="/create-answer"
+                  <button
                      className={classnames(
                         "btn btn-lg btn-secondary text-white",
                         {
@@ -92,7 +91,7 @@ export default class CreateImagery extends React.Component {
                         alt=""
                      />
                      Save
-                  </Link>
+                  </button>
                </div>
             </div>
          </AppTemplate>
