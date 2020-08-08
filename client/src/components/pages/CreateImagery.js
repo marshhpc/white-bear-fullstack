@@ -31,12 +31,33 @@ class CreateImagery extends React.Component {
 
    updateCreatableCard() {
       console.log("UPDATING CREATABLE CARD");
+      const {
+         id,
+         answer,
+         userId,
+         createdAt,
+         nextAttemptAt,
+         lastAttemptAt,
+         totalSuccessfulAttempts,
+         level,
+      } = this.props.creatableCard;
       this.props.dispatch({
          type: actions.UPDATE_CREATABLE_CARD,
          payload: {
-            imagery: "",
+            // the card itself
+            id,
+            answer,
+            imagery: this.state.imageryText,
+            userId,
+            createdAt,
+            nextAttemptAt,
+            lastAttemptAt,
+            totalSuccessfulAttempts,
+            level,
          },
       });
+      // save to the database (make an api call)
+      // go to create-answer
    }
 
    render() {

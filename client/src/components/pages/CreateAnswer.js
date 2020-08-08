@@ -12,7 +12,7 @@ class CreateAnswer extends React.Component {
       super(props);
       console.log("in the edit component");
       this.state = {
-         imageryText: "",
+         imageryText: this.props.creatableCard.answer || "",
       };
    }
 
@@ -60,7 +60,7 @@ class CreateAnswer extends React.Component {
                      <textarea
                         rows="4"
                         id="answerText"
-                        defaultValue={""}
+                        defaultValue={this.state.imageryText}
                         onChange={(e) => this.setImageryText(e)}
                      ></textarea>
                   </div>
@@ -101,6 +101,9 @@ class CreateAnswer extends React.Component {
 }
 
 function mapStateToProps(state) {
-   return { currentUser: state.currentUser };
+   return {
+      currentUser: state.currentUser,
+      creatableCard: state.creatableCard,
+   };
 }
 export default connect(mapStateToProps)(CreateAnswer);
