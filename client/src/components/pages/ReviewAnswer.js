@@ -4,6 +4,7 @@ import AppTemplate from "../ui/AppTemplate";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import actions from "../../store/actions";
+import axios from "axios";
 
 // const memoryCard = memoryCards[0];
 
@@ -20,20 +21,23 @@ class ReviewAnswer extends React.Component {
    }
 
    updateCardWithGotIt(memoryCard) {
-      memoryCard.totalSuccessfulAttempts += 1;
-      memoryCard.lastAttemptAt = Date.now();
-      const queue = { ...this.props.queue };
-      queue.cards[this.props.queue.index] = memoryCard;
+      const newMemoryCard = { ...memoryCard };
+      newMemoryCard.totalSuccessfulAttempts += 1;
+      newMemoryCard.lastAttemptAt = Date.now();
 
-      // update the global state
-      this.props.dispatch({
-         type: actions.UPDATE_QUEUED_CARD,
-         payload: queue.cards,
-      });
       // db PUT thi card in our axios req
-      // TODO: on success, fire the success overlay
-      // TODO: on error, fire error overlay
-      this.goToNextCard();
+      axios
+         .put(`/api/v1/memory-cards/${newMemoryCard.id}`, newMemoryCard) //
+         .then(() => {
+            console.log("Memory Card Updated");
+            // TODO: Display success overlay
+            this.goToNextCard();
+         })
+         .catch((err) => {
+            const { data } = err.response;
+            console.log(data);
+            // TODO: Display error overlay, hide after 5 seconds
+         });
    }
 
    goToNextCard() {
@@ -59,7 +63,7 @@ class ReviewAnswer extends React.Component {
    }
 
    render() {
-      const memoryCard = { ...this.props.queue.cards[this.props.queue.index] };
+      const memoryCard = this.props.queue.cards[this.props.queue.index];
       console.log(memoryCard);
 
       return (

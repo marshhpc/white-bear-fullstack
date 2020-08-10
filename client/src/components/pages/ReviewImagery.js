@@ -11,7 +11,7 @@ class ReviewImagery extends React.Component {
       if (props.queue.cards.length === 0) {
          axios
             .get(`/api/v1/queue`)
-            .then(function (res) {
+            .then((res) => {
                // handle success
                const cards = res.data;
                console.log(res);
@@ -20,7 +20,7 @@ class ReviewImagery extends React.Component {
                   payload: cards,
                });
             })
-            .catch(function (error) {
+            .catch((error) => {
                // handle error
                console.log(error);
             });

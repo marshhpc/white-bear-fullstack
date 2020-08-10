@@ -13,7 +13,7 @@ export default function queue(queue = {}, action) {
          newQueue.cards = [];
          newQueue.index = 0;
          return newQueue;
-      case actions.UPDATE_QUEUED_CARD:
+      case actions.UPDATE_QUEUED_CARDS:
          newQueue.cards = action.payload;
          return newQueue; // new state
       default:
